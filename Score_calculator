@@ -1,0 +1,74 @@
+#محمد سامي منذور.      قاعة سي 
+
+def grade_calculator(scores):
+  
+    # 1. Input Validation
+    if not scores:
+        return 0.0, "N/A - No scores provided"
+
+    # 2. Calculate the average score
+    total_score = sum(scores)
+    average_score = total_score / len(scores)
+
+    # 3. Determine the letter grade (Grading Scale: A:90-100, B:80-89, C:70-79, D:60-69, F:Below 60)
+    if 90 <= average_score <= 100:
+        letter_grade = 'A'
+    elif 80 <= average_score < 90:
+        letter_grade = 'B'
+    elif 70 <= average_score < 80:
+        letter_grade = 'C'
+    elif 60 <= average_score < 70:
+        letter_grade = 'D'
+    else:  # average_score < 60
+        letter_grade = 'F'
+        
+    return average_score, letter_grade
+
+
+
+def get_user_scores():
+    """
+    Prompts the user to enter exam scores, one by one, until they enter 'done'.
+    Returns a list of scores (floats).
+    """
+    user_scores = []
+    print("\nPlease enter exam scores one by one. Enter 'done' when finished.")
+    
+    while True:
+        user_input = input(f"Enter score #{len(user_scores) + 1} (or 'done'): ").strip().lower()
+        
+        if user_input == 'done':
+            break
+        
+        try:
+            # Convert the input string to a floating-point number
+            score = float(user_input)
+            
+            # Simple validation for realistic scores
+            if 0 <= score <= 100:
+                user_scores.append(score)
+            else:
+                print(" Score must be between 0 and 100. Please try again.")
+        except ValueError:
+            print(" Invalid input. Please enter a number or 'done'.")
+            
+    return user_scores
+
+# ----------------------------------------------------------------------
+# Main execution block
+# ----------------------------------------------------------------------
+
+# 1. Get the list of scores from the user
+exam_scores = get_user_scores()
+
+# 2. Call the calculator function with the user's scores
+average, grade = grade_calculator(exam_scores)
+
+# 3. Display the results
+print("\n--- Results ---")
+if exam_scores:
+    print(f"Scores Entered: {exam_scores}")
+    print(f"Calculated Average Score: {average:.2f}")
+    print(f"Final Letter Grade: {grade}")
+else:
+    print("No valid scores were entered. Cannot calculate the grade.")
